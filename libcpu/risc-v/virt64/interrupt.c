@@ -183,6 +183,11 @@ void handle_trap(rt_size_t xcause,rt_size_t xtval,rt_size_t xepc,struct rt_hw_st
     int cause = (xcause & 0xFFFFFFFF);
     int plic_irq = 0;
 
+    if (cause == IRQ_S_EXT || cause == IRQ_M_EXT) {
+        rt_kprintf("handle_trap(cause=0x%x, xtval=0x%x, xpec=0x%x)\n", xcause, xtval, xepc);
+        dump_regs(sp);
+    }
+
     if (xcause & (1UL << 63))
     {
         switch (cause)

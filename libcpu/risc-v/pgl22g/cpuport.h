@@ -15,6 +15,7 @@
 
 /* bytes of register width  */
 #ifdef ARCH_CPU_64BIT
+#error "Have not support 64-bit yet"
 #define STORE                   sd
 #define LOAD                    ld
 #define REGBYTES                8

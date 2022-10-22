@@ -92,6 +92,7 @@ static int drv_uart_putc(struct rt_serial_device *serial, char c)
 static int drv_uart_getc(struct rt_serial_device *serial)
 {
     if (uart_read_reg(LSR) & LSR_RX_READY){
+        drv_uart_putc(serial, '!');
         return uart_read_reg(RHR);
     } else {
         return -1;
