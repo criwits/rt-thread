@@ -47,10 +47,8 @@
 #define RT_USING_CONSOLE
 #define RT_CONSOLEBUF_SIZE 256
 #define RT_CONSOLE_DEVICE_NAME "uart"
-#define RT_VER_NUM 0x40101
-#define ARCH_CPU_64BIT
+#define RT_VER_NUM 0x50000
 #define ARCH_RISCV
-#define ARCH_RISCV64
 
 /* RT-Thread Components */
 
@@ -188,15 +186,40 @@
 /* entertainment: terminal games and other interesting software packages */
 
 
-/* Privated Packages of RealThread */
+/* Arduino libraries */
 
 
-/* Network Utilities */
+/* Projects */
 
 
-/* RT-Thread Smart */
+/* Sensors */
 
-#define BOARD_virt
+
+/* Display */
+
+
+/* Timing */
+
+
+/* Data Processing */
+
+
+/* Data Storage */
+
+/* Communication */
+
+
+/* Device Control */
+
+
+/* Other */
+
+/* Signal IO */
+
+
+/* Uncategorized */
+
+#define BOARD_pgl22g
 #define RT_USING_USERSPACE
 
 /* RISC-V QEMU virt64 configs */
