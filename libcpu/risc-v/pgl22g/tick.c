@@ -46,7 +46,7 @@ int rt_hw_tick_init(void)
 
     clear_csr(mie, MIP_MTIP);
     clear_csr(mip, MIP_MTIP);
-    *(uint64_t*)CLINT_MTIMECMP(__raw_hartid()) = *(uint64_t*)CLINT_MTIME + interval;
+    *(uint32_t*)CLINT_MTIMECMP(__raw_hartid()) = *(uint32_t*)CLINT_MTIME + interval;
     set_csr(mie, MIP_MTIP);
 
     return 0;

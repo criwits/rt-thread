@@ -70,18 +70,6 @@ static inline rt_uint32_t __raw_readl(const volatile void *addr)
     return val;
 }
 
-#if __riscv_xlen != 32
-static inline rt_uint64_t __raw_readq(const volatile void *addr)
-{
-    rt_uint64_t val;
-
-    asm volatile("ld %0, 0(%1)"
-                 : "=r"(val)
-                 : "r"(addr));
-    return val;
-}
-#endif
-
 /* FIXME: These are now the same as asm-generic */
 
 /* clang-format off */

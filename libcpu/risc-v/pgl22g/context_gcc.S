@@ -29,7 +29,7 @@ rt_hw_interrupt_disable:
  */
     .globl rt_hw_interrupt_enable
 rt_hw_interrupt_enable:
-    csrw SRC_XSTATUS, a0
+    csrw mstatus, a0
     ret
 
 /*
