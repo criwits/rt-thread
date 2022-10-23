@@ -10,8 +10,8 @@
 
 #include <rthw.h>
 #include <rtthread.h>
+#include <stdint.h>
 
-#include "sbi.h"
 #include "tick.h"
 #include <riscv_io.h>
 #include <encoding.h>
@@ -33,11 +33,8 @@ int tick_isr(void)
 {
     int tick_cycles = VIRT_CLINT_TIMEBASE_FREQ / RT_TICK_PER_SECOND;
     rt_tick_increase();
-#ifdef RISCV_S_MODE
-    sbi_set_timer(get_ticks() + tick_cycles);
-#else
-    *(uint64_t*)CLINT_MTIMECMP(__raw_hartid()) = *(uint64_t*)CLINT_MTIME + tick_cycles;
-#endif
+
+    *(uint32_t*)CLINT_MTIMECMP(__raw_hartid()) = *(uint32_t*)CLINT_MTIME + tick_cycles;
 
     return 0;
 }
@@ -47,23 +44,10 @@ int rt_hw_tick_init(void)
 {
     unsigned long interval = VIRT_CLINT_TIMEBASE_FREQ / RT_TICK_PER_SECOND;
 
-#ifdef RISCV_S_MODE
-    /* Clear the Supervisor-Timer bit in SIE */
-    clear_csr(sie, SIP_STIP);
-
-    /* calculate the tick cycles */
-    // tick_cycles = interval * sysctl_clock_get_freq(SYSCTL_CLOCK_CPU) / CLINT_CLOCK_DIV / 1000ULL - 1;
-    tick_cycles = 40000;
-    /* Set timer */
-    sbi_set_timer(get_ticks() + tick_cycles);
-
-    /* Enable the Supervisor-Timer bit in SIE */
-    set_csr(sie, SIP_STIP);
-#else
     clear_csr(mie, MIP_MTIP);
     clear_csr(mip, MIP_MTIP);
     *(uint64_t*)CLINT_MTIMECMP(__raw_hartid()) = *(uint64_t*)CLINT_MTIME + interval;
     set_csr(mie, MIP_MTIP);
-#endif
+
     return 0;
 }

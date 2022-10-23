@@ -21,11 +21,7 @@
  */
     .globl rt_hw_interrupt_disable
 rt_hw_interrupt_disable:
-#ifdef RISCV_S_MODE
-    csrrci a0, sstatus, 2
-#else
     csrrci a0, mstatus, 8
-#endif
     ret
 
 /*
@@ -121,19 +117,11 @@ rt_hw_context_switch:
 
 
     csrr a0, SRC_XSTATUS
-#ifdef RISCV_S_MODE
-    andi a0, a0, 2
-    beqz a0, save_spie
-    li   a0, 0x20
-save_spie:
-    STORE a0,   2 * REGBYTES(sp)
-#else
     andi a0, a0, 8
     beqz a0, save_mpie
     li   a0, 0x80
 save_mpie:
     STORE a0,   2 * REGBYTES(sp)
-#endif
 
     STORE x4,   4 * REGBYTES(sp)
     STORE x5,   5 * REGBYTES(sp)
@@ -224,17 +212,10 @@ rt_hw_context_switch_exit:
 
     LOAD x1,   1 * REGBYTES(sp)
 
-#ifdef RISCV_S_MODE
-    li    t0, 0x00000120
-    csrw  sstatus, t0
-    LOAD a0,   2 * REGBYTES(sp)
-    csrs sstatus, a0
-#else
     li    t0, 0x00007800
     csrw  mstatus, t0
     LOAD a0,   2 * REGBYTES(sp)
     csrs mstatus, a0
-#endif
 
     LOAD x4,   4 * REGBYTES(sp)
     LOAD x5,   5 * REGBYTES(sp)

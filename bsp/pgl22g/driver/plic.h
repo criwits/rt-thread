@@ -28,7 +28,6 @@
 #define PLIC_ENABLE_STRIDE              0x80
 #define PLIC_CONTEXT_STRIDE             0x1000
 
-#ifndef RISCV_S_MODE
 #define PLIC_MENABLE_OFFSET             (0x2000)
 #define PLIC_MTHRESHOLD_OFFSET          (0x200000)
 #define PLIC_MCLAIM_OFFSET              (0x200004)
@@ -38,18 +37,6 @@
 #define PLIC_THRESHOLD(hart)            (VIRT_PLIC_BASE + PLIC_MTHRESHOLD_OFFSET +  (hart * 2) * PLIC_CONTEXT_STRIDE)
 #define PLIC_CLAIM(hart)                (VIRT_PLIC_BASE + PLIC_MCLAIM_OFFSET +      (hart * 2) * PLIC_CONTEXT_STRIDE)
 #define PLIC_COMPLETE(hart)             (VIRT_PLIC_BASE + PLIC_MCOMPLETE_OFFSET +   (hart * 2) * PLIC_CONTEXT_STRIDE)
-
-#else
-#define PLIC_SENABLE_OFFSET             (0x2000   + PLIC_ENABLE_STRIDE)
-#define PLIC_STHRESHOLD_OFFSET          (0x200000 + PLIC_CONTEXT_STRIDE)
-#define PLIC_SCLAIM_OFFSET              (0x200004 + PLIC_CONTEXT_STRIDE)
-#define PLIC_SCOMPLETE_OFFSET           (0x200004 + PLIC_CONTEXT_STRIDE)
-
-#define PLIC_ENABLE(hart)               (VIRT_PLIC_BASE + PLIC_SENABLE_OFFSET +     (hart * 2) * PLIC_ENABLE_STRIDE)
-#define PLIC_THRESHOLD(hart)            (VIRT_PLIC_BASE + PLIC_STHRESHOLD_OFFSET +  (hart * 2) * PLIC_CONTEXT_STRIDE)
-#define PLIC_CLAIM(hart)                (VIRT_PLIC_BASE + PLIC_SCLAIM_OFFSET +      (hart * 2) * PLIC_CONTEXT_STRIDE)
-#define PLIC_COMPLETE(hart)             (VIRT_PLIC_BASE + PLIC_SCOMPLETE_OFFSET +   (hart * 2) * PLIC_CONTEXT_STRIDE)
-#endif
 
 #define PLIC_PRIORITY(id)               (VIRT_PLIC_BASE + PLIC_PRIORITY_OFFSET + (id) * 4)
 #define PLIC_PENDING(id)                (VIRT_PLIC_BASE + PLIC_PENDING_OFFSET + ((id) / 32))

@@ -16,10 +16,13 @@
 int main(void)
 {
     printf("Hello RISC-V!\n");
+    for (int i = 0; i <= 100; i++) {
+        printf("%d!\n", i);
+    }
     // while (1) {
         printf("Sleeping...\n");
         // rt_thread_mdelay(1000);
-        rt_thread_mdelay(1);
+        rt_thread_mdelay(10000);
     // }
     return 0;
 }

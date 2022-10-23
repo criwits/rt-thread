@@ -36,7 +36,7 @@ SECTIONS
         *(.start);
     } > SRAM
 
-    . = ALIGN(8);
+    . = ALIGN(4);
 
     .text : 
     {
@@ -49,28 +49,28 @@ SECTIONS
         *(.gnu.linkonce.t*)
      
         /* section information for finsh shell */
-        . = ALIGN(8);
+        . = ALIGN(4);
         __fsymtab_start = .;
         KEEP(*(FSymTab))
         __fsymtab_end = .;
-        . = ALIGN(8);
+        . = ALIGN(4);
         __vsymtab_start = .;
         KEEP(*(VSymTab))
         __vsymtab_end = .;
-        . = ALIGN(8);
+        . = ALIGN(4);
 
         /* section information for initial. */
-        . = ALIGN(8);
+        . = ALIGN(4);
         __rt_init_start = .;
         KEEP(*(SORT(.rti_fn*)))
         __rt_init_end = .;
-        . = ALIGN(8);
+        . = ALIGN(4);
 
         __rt_utest_tc_tab_start = .;
         KEEP(*(UtestTcTab))
         __rt_utest_tc_tab_end = .;
 
-        . = ALIGN(8);
+        . = ALIGN(4);
         _etext = .;
     } > SRAM
 
@@ -81,7 +81,7 @@ SECTIONS
     } > SRAM
     .eh_frame : ONLY_IF_RO { KEEP (*(.eh_frame)) } > SRAM
 
-    . = ALIGN(8);
+    . = ALIGN(4);
 
     .data : 
     {
@@ -91,7 +91,7 @@ SECTIONS
         *(.data1)
         *(.data1.*)
 
-        . = ALIGN(8);
+        . = ALIGN(4);
         PROVIDE( __global_pointer$ = . + 0x800 );
 
         *(.sdata)

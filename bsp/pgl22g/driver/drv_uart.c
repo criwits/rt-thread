@@ -14,7 +14,7 @@
 #include "drv_uart.h"
 
 #include <stdio.h>
-#include "sbi.h"
+#include <stdint.h>
 #include "interrupt.h"
 
 struct device_uart

@@ -10,16 +10,13 @@
 #ifndef __RISCV_IO_H__
 #define __RISCV_IO_H__
 
+#include <stdint.h>
+
 static inline uint32_t  __raw_hartid(void)
 {
-#ifdef RISCV_S_MODE
-    extern int boot_hartid;
-    return boot_hartid;
-#else
     uint32_t x;
     asm volatile("csrr %0, mhartid" : "=r" (x) );
     return x;
-#endif
 }
 
 static inline void __raw_writeb(rt_uint8_t val, volatile void *addr)
@@ -42,15 +39,6 @@ static inline void __raw_writel(rt_uint32_t val, volatile void *addr)
                  :
                  : "r"(val), "r"(addr));
 }
-
-#if __riscv_xlen != 32
-static inline void __raw_writeq(rt_uint64_t val, volatile void *addr)
-{
-    asm volatile("sd %0, 0(%1)"
-                 :
-                 : "r"(val), "r"(addr));
-}
-#endif
 
 static inline rt_uint8_t __raw_readb(const volatile void *addr)
 {
@@ -111,11 +99,6 @@ static inline rt_uint64_t __raw_readq(const volatile void *addr)
 #define writew_relaxed(v,c) ({ __io_rbw(); __raw_writew((v),(c)); __io_raw(); })
 #define writel_relaxed(v,c) ({ __io_rbw(); __raw_writel((v),(c)); __io_raw(); })
 
-#if __riscv_xlen != 32
-#define readq_relaxed(c)    ({ rt_uint64_t __v; __io_rbr(); __v = __raw_readq(c); __io_rar(); __v; })
-#define writeq_relaxed(v,c) ({ __io_rbw(); __raw_writeq((v),(c)); __io_raw(); })
-#endif
-
 #define __io_br()   do {} while (0)
 #define __io_ar()   __asm__ __volatile__ ("fence i,r" : : : "memory");
 #define __io_bw()   __asm__ __volatile__ ("fence w,o" : : : "memory");
@@ -128,10 +111,5 @@ static inline rt_uint64_t __raw_readq(const volatile void *addr)
 #define writeb(v,c) ({ __io_bw(); __raw_writeb((v),(c)); __io_aw(); })
 #define writew(v,c) ({ __io_bw(); __raw_writew((v),(c)); __io_aw(); })
 #define writel(v,c) ({ __io_bw(); __raw_writel((v),(c)); __io_aw(); })
-
-#if __riscv_xlen != 32
-#define readq(c)    ({ rt_uint64_t __v; __io_br(); __v = __raw_readq(c); __io_ar(); __v; })
-#define writeq(v,c) ({ __io_bw(); __raw_writeq((v),(c)); __io_aw(); })
-#endif
 
 #endif

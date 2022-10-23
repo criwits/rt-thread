@@ -70,11 +70,7 @@ rt_uint8_t *rt_hw_stack_init(void       *tentry,
     frame->epc     = (rt_ubase_t)tentry;
     frame->user_sp_exc_stack = (rt_ubase_t)(((rt_ubase_t)stk) + sizeof(struct rt_hw_stack_frame));
 
-#ifndef RISCV_S_MODE
-    frame->xstatus = 0x00001880;
-#else
-    frame->xstatus = 0x00040120;
-#endif
+    frame->xstatus = 0x00007880;
 
     return stk;
 }

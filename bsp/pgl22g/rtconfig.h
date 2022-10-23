@@ -241,7 +241,7 @@
 #define BOARD_pgl22g
 #define RT_USING_USERSPACE
 
-/* RISC-V QEMU virt64 configs */
+/* RISC-V PGL22G configs */
 
 #define __STACKSIZE__ 16384
 

@@ -23,9 +23,6 @@
 #include "riscv_io.h"
 #include "plic.h"
 #include "interrupt.h"
-#ifdef CONFIG_RISCV_S_MODE
-#include "sbi.h"
-#endif
 
 void primary_cpu_entry(void)
 {
@@ -63,12 +60,3 @@ void rt_hw_board_init(void)
     rt_components_board_init();
 #endif
 }
-
-#ifdef CONFIG_RISCV_S_MODE
-static void cmd_shutdown(void)
-{
-    sbi_shutdown();
-    while(1);
-}
-MSH_CMD_EXPORT_ALIAS(cmd_shutdown, shutdown, shutdown qemu-virt64);
-#endif

@@ -97,12 +97,7 @@ trap_entry:
     /* switch to interrupt stack */
     move  s0, sp
 
-#ifndef RISCV_S_MODE
-    /* get cpu id */
-    csrr  t0, mhartid
-#else
     li    t0, 0
-#endif
 
     /* switch interrupt stack of current cpu */
     la    sp, __stack_start__

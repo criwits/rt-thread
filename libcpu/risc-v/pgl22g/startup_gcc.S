@@ -20,12 +20,6 @@ boot_hartid: .int
   .global   _start
   .section ".start", "ax"
 _start:
-#ifdef RISCV_S_MODE
-  # save hartid
-  la t0, boot_hartid                # global varible rt_boot_hartid
-  mv t1, a0                         # get hartid in S-mode frome a0 register
-  sw t1, (t0)                       # store t1 register low 4 bits in memory address which is stored in t0
-#else
   # setup stacks per hart
   csrr t0, mhartid                  # read current hart id
   slli t0, t0, 10                   # shift left the hart id by 1024
@@ -33,7 +27,6 @@ _start:
   # park harts with id != 0
   csrr a0, mhartid                  # read current hart id
   bnez a0, park                     # if we're not on the hart 0
-#endif
 
   csrw SRC_XIE, 0                   # clear Interrupt Registers
   csrw SRC_XIP, 0
@@ -44,10 +37,6 @@ _start:
   /* set to disable FPU */
   li t0, XSTATUS_FS                 # close fpu
   csrc SRC_XSTATUS, t0
-#ifdef RISCV_S_MODE
-  li t0, XSTATUS_PUM                # PUM has no effect
-  csrs SRC_XSTATUS, t0
-#endif
 
 .option push
 .option norelax
