@@ -13,65 +13,48 @@
 #include <stdio.h>
 #include <string.h>
 
-#define THREAD_PRIORITY         25
-#define THREAD_STACK_SIZE       512
-#define THREAD_TIMESLICE        5
+#include <rtthread.h>
 
-static rt_thread_t tid1 = RT_NULL;
+/* 定时器的控制块 */
+static rt_timer_t timer1;
+static rt_timer_t timer2;
+static int cnt = 0;
 
-/* 线程 1 的入口函数 */
-static void thread1_entry(void *parameter)
+/* 定时器 1 超时函数 */
+static void timeout1(void *parameter)
 {
-    rt_uint32_t count = 0;
+    rt_kprintf("periodic timer is timeout %d\n", cnt);
 
-    while (1)
+    /* 运行第 10 次，停止周期定时器 */
+    if (cnt++>= 9)
     {
-        /* 线程 1 采用低优先级运行，一直打印计数值 */
-        rt_kprintf("thread1 count: %d\n", count ++);
-        rt_thread_mdelay(500);
+        rt_timer_stop(timer1);
+        rt_kprintf("periodic timer was stopped! \n");
     }
 }
 
-ALIGN(RT_ALIGN_SIZE)
-static char thread2_stack[1024];
-static struct rt_thread thread2;
-/* 线程 2 入口 */
-static void thread2_entry(void *param)
+/* 定时器 2 超时函数 */
+static void timeout2(void *parameter)
 {
-    rt_uint32_t count = 0;
-
-    /* 线程 2 拥有较高的优先级，以抢占线程 1 而获得执行 */
-    for (count = 0; count < 10 ; count++)
-    {
-        /* 线程 2 打印计数值 */
-        rt_kprintf("thread2 count: %d\n", count);
-    }
-    rt_kprintf("thread2 exit\n");
-    /* 线程 2 运行结束后也将自动被系统脱离 */
+    rt_kprintf("one shot timer is timeout\n");
 }
 
-/* 线程示例 */
-int main()
+int main(void)
 {
-    /* 创建线程 1，名称是 thread1，入口是 thread1_entry*/
-    tid1 = rt_thread_create("thread1",
-                            thread1_entry, RT_NULL,
-                            THREAD_STACK_SIZE,
-                            THREAD_PRIORITY, THREAD_TIMESLICE);
+    /* 创建定时器 1  周期定时器 */
+    timer1 = rt_timer_create("timer1", timeout1,
+                             RT_NULL, 10,
+                             RT_TIMER_FLAG_PERIODIC);
 
-    /* 如果获得线程控制块，启动这个线程 */
-    if (tid1 != RT_NULL)
-        rt_thread_startup(tid1);
+    /* 启动定时器 1 */
+    if (timer1 != RT_NULL) rt_timer_start(timer1);
 
-    /* 初始化线程 2，名称是 thread2，入口是 thread2_entry */
-    rt_thread_init(&thread2,
-                   "thread2",
-                   thread2_entry,
-                   RT_NULL,
-                   &thread2_stack[0],
-                   sizeof(thread2_stack),
-                   THREAD_PRIORITY - 1, THREAD_TIMESLICE);
-    rt_thread_startup(&thread2);
+    /* 创建定时器 2 单次定时器 */
+    timer2 = rt_timer_create("timer2", timeout2,
+                             RT_NULL,  30,
+                             RT_TIMER_FLAG_ONE_SHOT);
 
+    /* 启动定时器 2 */
+    if (timer2 != RT_NULL) rt_timer_start(timer2);
     return 0;
 }

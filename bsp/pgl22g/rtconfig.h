@@ -20,26 +20,6 @@
 /* kservice optimization */
 
 #define RT_KPRINTF_USING_LONGLONG
-#define RT_DEBUG
-#define RT_DEBUG_COLOR
-#define RT_DEBUG_INIT_CONFIG
-#define RT_DEBUG_INIT 1
-#define RT_DEBUG_THREAD_CONFIG
-#define RT_DEBUG_THREAD 1
-#define RT_DEBUG_SCHEDULER_CONFIG
-#define RT_DEBUG_SCHEDULER 1
-#define RT_DEBUG_IPC_CONFIG
-#define RT_DEBUG_IPC 1
-#define RT_DEBUG_TIMER_CONFIG
-#define RT_DEBUG_TIMER 1
-#define RT_DEBUG_MEM_CONFIG
-#define RT_DEBUG_MEM 1
-#define RT_DEBUG_SLAB_CONFIG
-#define RT_DEBUG_SLAB 1
-#define RT_DEBUG_MEMHEAP_CONFIG
-#define RT_DEBUG_MEMHEAP 1
-#define RT_DEBUG_MODULE_CONFIG
-#define RT_DEBUG_MODULE 1
 
 /* Inter-Thread communication */
 
