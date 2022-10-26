@@ -33,6 +33,7 @@
 #define PLIC_MCLAIM_OFFSET              (0x200004)
 #define PLIC_MCOMPLETE_OFFSET           (0x200004)
 
+//                                       0xc00000 +       0x2000 +                               0x80
 #define PLIC_ENABLE(hart)               (VIRT_PLIC_BASE + PLIC_MENABLE_OFFSET +     (hart * 2) * PLIC_ENABLE_STRIDE)
 #define PLIC_THRESHOLD(hart)            (VIRT_PLIC_BASE + PLIC_MTHRESHOLD_OFFSET +  (hart * 2) * PLIC_CONTEXT_STRIDE)
 #define PLIC_CLAIM(hart)                (VIRT_PLIC_BASE + PLIC_MCLAIM_OFFSET +      (hart * 2) * PLIC_CONTEXT_STRIDE)
