@@ -23,6 +23,9 @@ Original Author: Shay Gal-on
 #ifndef CORE_PORTME_H
 #define CORE_PORTME_H
 
+#include <rtthread.h>
+#include <rtconfig.h>
+
 /**
  * @brief Config here
  * 
@@ -31,7 +34,18 @@ Original Author: Shay Gal-on
  */
 #define HAS_FLOAT 0
 #define MAIN_HAS_NOARGC 1
-#define ITERATIONS 0
+
+#define ITERATIONS COREMARK_ITERATIONS
+
+#ifdef COREMARK_PROFILE
+#define PROFILE_RUN 1
+#endif
+#ifdef COREMARK_PERFORMANCE
+#define PERFORMANCE_RUN 1
+#endif
+#ifdef COREMARK_VALIDATION
+#define VALIDATION_RUN 1
+#endif
 
 /************************/
 /* Data types and settings */

@@ -34,3 +34,22 @@ source "driver/Kconfig"
 config __STACKSIZE__
     int "stack size for interrupt"
     default 4096
+
+menu "Coremark Config"
+
+config COREMARK_ITERATIONS
+    int "Iterations number for Coremark"
+    default 0
+
+choice
+    prompt "Running Mode"
+    default COREMARK_PERFORMANCE
+config COREMARK_PROFILE
+    bool "Profile Run"
+config COREMARK_PERFORMANCE
+    bool "Performance Run"
+config COREMARK_VALIDATION
+    bool "Validation Run"
+endchoice
+
+endmenu

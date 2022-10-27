@@ -151,6 +151,7 @@
 
 /* tools packages */
 
+#define COREMARK_ITERATIONS 0
 
 /* system packages */
 
@@ -224,5 +225,9 @@
 /* RISC-V PGL22G configs */
 
 #define __STACKSIZE__ 16384
+
+/* Coremark Config */
+
+#define COREMARK_PERFORMANCE
 
 #endif
