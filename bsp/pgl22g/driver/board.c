@@ -42,6 +42,7 @@ void rt_hw_board_init(void)
     rt_hw_interrupt_init();
     /* initialize hardware interrupt */
     rt_hw_uart_init();
+    rt_kprintf("If you see this line, then uart works!\n");
 
 #ifdef RT_USING_HEAP
     /* initialize memory system */
@@ -54,7 +55,11 @@ void rt_hw_board_init(void)
 #endif
 
     rt_hw_tick_init();
-    rt_kprintf("heap: [0x%08x - 0x%08x]\n", (rt_ubase_t) RT_HW_HEAP_BEGIN, (rt_ubase_t) RT_HW_HEAP_END);
+
+    rt_kprintf("Memory info:\n");
+    rt_kprintf(" stack: [0x%08x, 0x%08x)\n", (rt_ubase_t) RT_HW_STACK_BEGIN, (rt_ubase_t) RT_HW_STACK_END);
+    rt_kprintf("   bss: [0x%08x, 0x%08x)\n", (rt_ubase_t) RT_HW_BSS_BEGIN, (rt_ubase_t) RT_HW_BSS_END);
+    rt_kprintf("  heap: [0x%08x, 0x%08x)\n", (rt_ubase_t) RT_HW_HEAP_BEGIN, (rt_ubase_t) RT_HW_HEAP_END);
 
 #ifdef RT_USING_COMPONENTS_INIT
     rt_components_board_init();

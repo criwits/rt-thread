@@ -224,7 +224,10 @@
 
 /* RISC-V PGL22G configs */
 
+#define __START_ADDR__ 0x80000000
+#define __STACK_ADDR__ 0x88000000
 #define __STACKSIZE__ 16384
+#define HEAP_SIZE 67108864
 
 /* Coremark Config */
 

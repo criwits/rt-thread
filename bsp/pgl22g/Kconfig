@@ -31,9 +31,21 @@ config RT_USING_USERSPACE
 
 source "driver/Kconfig"
 
+config __START_ADDR__
+    hex "start address"
+    default 0x80000000
+
+config __STACK_ADDR__
+    hex "stack address, usually where RAM starts"
+    default 0x88000000
+
 config __STACKSIZE__
     int "stack size for interrupt"
     default 4096
+
+config HEAP_SIZE
+    int "heap size (byte)"
+    default 67108864
 
 menu "Coremark Config"
 

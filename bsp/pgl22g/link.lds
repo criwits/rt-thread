@@ -21,7 +21,8 @@ OUTPUT_ARCH( "riscv" )
 
 MEMORY
 {
-   SRAM : ORIGIN = __START_ADDR__, LENGTH = 0x7FF000
+   FLASH : ORIGIN = __START_ADDR__, LENGTH = 0x8000000
+   RAM   : ORIGIN = __STACK_ADDR__, LENGTH = 0x10000000
 }
 
 ENTRY(_start)
@@ -34,7 +35,7 @@ SECTIONS
     .start :
     {
         *(.start);
-    } > SRAM
+    } > FLASH
 
     . = ALIGN(4);
 
@@ -72,14 +73,14 @@ SECTIONS
 
         . = ALIGN(4);
         _etext = .;
-    } > SRAM
+    } > FLASH
 
     .eh_frame_hdr : 
     { 
          *(.eh_frame_hdr) 
          *(.eh_frame_entry)
-    } > SRAM
-    .eh_frame : ONLY_IF_RO { KEEP (*(.eh_frame)) } > SRAM
+    } > FLASH
+    .eh_frame : ONLY_IF_RO { KEEP (*(.eh_frame)) } > FLASH
 
     . = ALIGN(4);
 
@@ -96,9 +97,12 @@ SECTIONS
 
         *(.sdata)
         *(.sdata.*)
-    } > SRAM
+    } > FLASH
 
-    /* stack for dual core */
+    /* stack */
+
+    . = __STACK_ADDR__;
+
     .stack :
     {
         . = ALIGN(64);
@@ -106,10 +110,7 @@ SECTIONS
 
         . += __STACKSIZE__;
         __stack_cpu0 = .;
-
-        . += __STACKSIZE__;
-        __stack_cpu1 = .;
-    } > SRAM
+    } > RAM
 
     .sbss : 
     {
@@ -118,7 +119,7 @@ SECTIONS
         *(.sbss.*)
         *(.dynsbss)
         *(.scommon)
-    } > SRAM
+    } > RAM
 
     .bss :
     {
@@ -127,7 +128,7 @@ SECTIONS
         *(.dynbss)
         *(COMMON)
     __bss_end = .;
-    } > SRAM
+    } > RAM
 
     _end = .;
 
