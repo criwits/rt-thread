@@ -85,7 +85,9 @@ static rt_err_t uart_control(struct rt_serial_device *serial, int cmd, void *arg
 
 static int drv_uart_putc(struct rt_serial_device *serial, char c)
 {
-    while ((uart_read_reg(LSR) & LSR_TX_IDLE) == 0);
+    // while ((uart_read_reg(LSR) & LSR_TX_IDLE) == 0);
+    uint32_t delay = 0x1f;
+    while (delay--);
     return uart_write_reg(THR, c);
 }
 

@@ -44,8 +44,8 @@ config __STACKSIZE__
     default 4096
 
 config HEAP_SIZE
-    int "heap size (byte)"
-    default 67108864
+    hex "heap size (byte)"
+    default 0x4000000
 
 menu "Coremark Config"
 

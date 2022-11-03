@@ -15,7 +15,7 @@ if os.getenv('RTT_CC'):
 
 if  CROSS_TOOL == 'gcc':
     PLATFORM    = 'gcc'
-    TOOLCHAIN_PATH = os.getenv('RISCV')
+    TOOLCHAIN_PATH = os.getenv('RISCV') if os.getenv('RISCV') is not None else "/opt/riscv/bin"
     EXEC_PATH   = TOOLCHAIN_PATH + '/bin'
 else:
     print('Please make sure your toolchains is GNU GCC!')
