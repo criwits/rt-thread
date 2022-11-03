@@ -1,5 +1,3 @@
 link_stacksize.lds
 Makefile
 config.mk
-.config
-rtconfig.h

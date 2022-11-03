@@ -15,7 +15,7 @@
 #define RT_HOOK_USING_FUNC_PTR
 #define RT_USING_IDLE_HOOK
 #define RT_IDLE_HOOK_LIST_SIZE 4
-#define IDLE_THREAD_STACK_SIZE 16384
+#define IDLE_THREAD_STACK_SIZE 4096
 
 /* kservice optimization */
 
@@ -51,7 +51,7 @@
 
 #define RT_USING_COMPONENTS_INIT
 #define RT_USING_USER_MAIN
-#define RT_MAIN_THREAD_STACK_SIZE 16384
+#define RT_MAIN_THREAD_STACK_SIZE 4096
 #define RT_MAIN_THREAD_PRIORITY 2
 #define RT_USING_MSH
 #define RT_USING_FINSH
@@ -104,9 +104,6 @@
 
 /* Utilities */
 
-#define RT_USING_UTEST
-#define UTEST_THR_STACK_SIZE 4096
-#define UTEST_THR_PRIORITY 20
 
 /* RT-Thread Utestcases */
 
@@ -226,8 +223,8 @@
 
 #define __START_ADDR__ 0x80000000
 #define __STACK_ADDR__ 0x80040000
-#define __STACKSIZE__ 16384
-#define HEAP_SIZE 32768
+#define __STACKSIZE__ 8192
+#define HEAP_SIZE 16384
 
 /* Coremark Config */
 
