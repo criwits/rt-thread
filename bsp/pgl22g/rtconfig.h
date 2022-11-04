@@ -15,7 +15,7 @@
 #define RT_HOOK_USING_FUNC_PTR
 #define RT_USING_IDLE_HOOK
 #define RT_IDLE_HOOK_LIST_SIZE 4
-#define IDLE_THREAD_STACK_SIZE 16384
+#define IDLE_THREAD_STACK_SIZE 4096
 
 /* kservice optimization */
 
@@ -51,7 +51,7 @@
 
 #define RT_USING_COMPONENTS_INIT
 #define RT_USING_USER_MAIN
-#define RT_MAIN_THREAD_STACK_SIZE 16384
+#define RT_MAIN_THREAD_STACK_SIZE 4096
 #define RT_MAIN_THREAD_PRIORITY 2
 #define RT_USING_MSH
 #define RT_USING_FINSH
@@ -104,9 +104,6 @@
 
 /* Utilities */
 
-#define RT_USING_UTEST
-#define UTEST_THR_STACK_SIZE 4096
-#define UTEST_THR_PRIORITY 20
 
 /* RT-Thread Utestcases */
 
