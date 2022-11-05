@@ -31,21 +31,25 @@ static int       drv_uart_getc(struct rt_serial_device *serial);
 void virt_uart_init(void)
 {
     //http://byterunner.com/16550.html
-    uart_write_reg(IER, 0x00);
+    // uart_write_reg(IER, 0x00);
 
-    uint8_t lcr = uart_read_reg(LCR);
-    uart_write_reg(LCR, lcr | (1 << 7));
-    uart_write_reg(DLL, 0x03);
-    uart_write_reg(DLM, 0x00);
+    // uint8_t lcr = uart_read_reg(LCR);
+    // uart_write_reg(LCR, lcr | (1 << 7));
+    // uart_write_reg(DLL, 0x03);
+    // uart_write_reg(DLM, 0x00);
 
-    lcr = 0;
-    uart_write_reg(LCR, lcr | (3 << 0));
+    // lcr = 0;
+    // uart_write_reg(LCR, lcr | (3 << 0));
 
-    /*
-     * enable receive interrupts.
-     */
-    uint8_t ier = uart_read_reg(IER);
-    uart_write_reg(IER, ier | (1 << 0));
+    // /*
+    //  * enable receive interrupts.
+    //  */
+    // uint8_t ier = uart_read_reg(IER);
+    // uart_write_reg(IER, ier | (1 << 0));
+
+    uart_write_reg(4, 0);
+    uart_write_reg(2, 1);
+    uart_write_reg(3, 1);
 }
 
 /*
@@ -86,20 +90,28 @@ static rt_err_t uart_control(struct rt_serial_device *serial, int cmd, void *arg
 static int drv_uart_putc(struct rt_serial_device *serial, char c)
 {
     // while ((uart_read_reg(LSR) & LSR_TX_IDLE) == 0);
-    uint32_t delay = 0x1f;
-    while (delay--);
-    return uart_write_reg(THR, c);
+    // // uint32_t delay = 0x1f;
+    // // while (delay--);
+    // return uart_write_reg(THR, c);
+    while (uart_read_reg(0) & 0x80000000)
+		;
+
+	uart_write_reg(0, c);
 }
 
 static int drv_uart_getc(struct rt_serial_device *serial)
 {
-    if (uart_read_reg(LSR) & LSR_RX_READY){
-        // drv_uart_putc(serial, '!');
-        return uart_read_reg(RHR);
-    } else {
-        return -1;
-    }
-    //return sbi_console_getchar();
+    // if (uart_read_reg(LSR) & LSR_RX_READY){
+    //     // drv_uart_putc(serial, '!');
+    //     return uart_read_reg(RHR);
+    // } else {
+    //     return -1;
+    // }
+    // //return sbi_console_getchar();
+    uint32_t ret = uart_read_reg(1);
+	if (!(ret & 0x80000000))
+		return ret & 0xff;
+	return -1;
 }
 
 static void rt_hw_uart_isr(int irqno, void *param)

@@ -20,6 +20,32 @@ boot_hartid: .int
   .global   _start
   .section ".start", "ax"
 _start:
+  // for sifive uart
+  lui a0,0x54000000>>12
+	// disable interrupts
+	li a1,0
+	sw a1,16(a0)
+	// enable tx
+	li a1,1
+	sw a1,8(a0)
+	// enable rx
+	li a1,1
+	sw a1,12(a0)
+
+	// print START\n
+	addi a1,zero,'S'
+	addi a2,zero,'T'
+	addi a3,zero,'A'
+	addi a4,zero,'R'
+	addi a5,zero,'T'
+	addi a6,zero,'\n'
+  sw a1,0(a0)
+	sw a2,0(a0)
+	sw a3,0(a0)
+	sw a4,0(a0)
+	sw a5,0(a0)
+	sw a6,0(a0)
+
   # setup stacks per hart
   csrr t0, mhartid                  # read current hart id
   slli t0, t0, 10                   # shift left the hart id by 1024

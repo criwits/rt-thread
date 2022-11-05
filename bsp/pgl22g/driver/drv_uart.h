@@ -15,7 +15,8 @@
 
 #define UART_DEFAULT_BAUDRATE               115200
 
-#define UART_BASE            (0x10000000L)
+// #define UART_BASE            (0x10000000L)
+#define UART_BASE            (0x54000000L)
 
 #define RHR 0    // Receive Holding Register (read mode)
 #define THR 0    // Transmit Holding Register (write mode)
@@ -30,12 +31,21 @@
 #define MSR 6    // Modem Status Register
 #define SPR 7    // ScratchPad Register
 
-#define UART_REG(reg) ((volatile uint8_t *)(UART_BASE + reg))
+// #define UART_REG(reg) ((volatile uint8_t *)(UART_BASE + reg))
+#define UART_REG(reg) ((volatile uint32_t *)(UART_BASE + (reg * 4)))
 
 #define LSR_RX_READY (1 << 0)
 #define LSR_TX_IDLE  (1 << 5)
 
-#define uart_read_reg(reg) (*(UART_REG(reg)))
+// #define uart_read_reg(reg) (*(UART_REG(reg)))
+#define uart_read_reg(reg) uart_read_reg_cache(reg)
+static inline uint32_t uart_read_reg_cache(uint32_t reg) {
+  register uint32_t t0 asm("t0");
+  t0 = reg;
+  // __asm__(".word 0x0002d00f");
+  __asm__(".word 0x500f");
+  return (*(UART_REG(reg)));
+}
 #define uart_write_reg(reg, v) (*(UART_REG(reg)) = (v))
 
 int rt_hw_uart_init(void);
