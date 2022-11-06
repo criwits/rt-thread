@@ -51,7 +51,10 @@ menu "Coremark Config"
 
 config COREMARK_ITERATIONS
     int "Iterations number for Coremark"
-    default 0
+    default 1
+config COREMARK_AUTORUN
+    bool "Auto launch Coremark when os starts"
+    default y
 
 choice
     prompt "Running Mode"

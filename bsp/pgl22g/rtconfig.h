@@ -148,7 +148,7 @@
 
 /* tools packages */
 
-#define COREMARK_ITERATIONS 0
+#define COREMARK_ITERATIONS 1
 
 /* system packages */
 

@@ -17,7 +17,11 @@
 int main(void) {
     rt_kprintf("RT-Thread on PGL22G RV32 IP Core!\n");
     rt_kprintf("Long Live CHIRO! In CHIRO We Trust!\n");
+#ifdef COREMARK_AUTORUN
+    rt_kprintf("LAUNCHING Coremark...\n");
     int coremark_main(void);
     coremark_main();
+    rt_kprintf("Coremark finished\n");
+#endif
     return 0;
 }
