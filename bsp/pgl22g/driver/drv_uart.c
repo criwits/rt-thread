@@ -47,7 +47,8 @@ void virt_uart_init(void)
     // uint8_t ier = uart_read_reg(IER);
     // uart_write_reg(IER, ier | (1 << 0));
 
-    uart_write_reg(4, 0);
+    // uart_write_reg(4, 0); // disable interrupt
+    uart_write_reg(4, 1); // enable interrupt
     uart_write_reg(2, 1);
     uart_write_reg(3, 1);
 }
