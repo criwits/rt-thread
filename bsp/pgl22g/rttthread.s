@@ -10,7 +10,7 @@ Disassembly of section .start:
   .section ".start", "ax"
 _start:
   // for sifive uart
-  lui a0,0x54000000>>12
+  li a0,0x54000000
 80000000:	54000537          	lui	a0,0x54000
 	// disable interrupts
 	li a1,0
